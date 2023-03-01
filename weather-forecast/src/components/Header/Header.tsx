@@ -8,9 +8,11 @@ import './Header.scss';
 const Header: React.FC = () => {
   return (
     <header className="header">
-      <h1 className="title">WeatherForecast</h1>
-      <Search />
-      <Cities />
+      <section className="header_options">
+        <h1 className="title">WeatherForecast</h1>
+        <Search />
+        <Cities />
+      </section>
       <Contacts />
     </header>
   );
