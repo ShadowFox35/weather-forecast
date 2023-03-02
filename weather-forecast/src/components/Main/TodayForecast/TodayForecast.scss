@@ -1,0 +1,23 @@
+.today {
+  padding: 30px;
+  margin-bottom: 30px;
+
+  &_main-info {
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    .taday-forecast {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &_secondary-info {
+    display: flex;
+    gap: 10px;
+  }
+}

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-// import gameOptionsRedicer from './gameOptions';
+import citiesArrayRedicer from './citiesArrayOption';
 
 export const rootReducer = combineReducers({
-  // gameOptionsRedicer: gameOptionsRedicer,
+  citiesArrayRedicer: citiesArrayRedicer,
 });
