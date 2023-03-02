@@ -1,0 +1,13 @@
+.contacts {
+  &_link {
+    &_icon {
+      width: 30px;
+      height: 30px;
+      margin-left: 15px;
+      &:hover {
+        filter: invert(18%) sepia(90%) saturate(1290%) hue-rotate(230deg) brightness(45%) contrast(90%);
+        cursor: pointer;
+      }
+    }
+  }
+}

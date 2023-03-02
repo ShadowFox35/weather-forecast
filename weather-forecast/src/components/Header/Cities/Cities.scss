@@ -1,0 +1,20 @@
+.cities {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 30px;
+
+  .city {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+    &_name {
+      font-size: 16px;
+    }
+    &_remove-icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}

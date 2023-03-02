@@ -1,0 +1,11 @@
+.week {
+  display: flex;
+  gap: 20px;
+  &_main-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
