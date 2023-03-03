@@ -14,7 +14,9 @@ const Search: React.FC = () => {
   const enterCity = (event: React.KeyboardEvent<HTMLElement>) => {
     if (event.key === 'Enter') {
       let list = [...citiesArray];
-      !citiesArray.includes(inputCity) && list.push(inputCity);
+      list.length === 5 && list.pop();
+      !citiesArray.includes(inputCity) && list.unshift(inputCity);
+
       dispatch(addCity(list));
     }
   };
