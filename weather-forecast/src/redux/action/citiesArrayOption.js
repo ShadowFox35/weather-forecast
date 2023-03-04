@@ -4,3 +4,10 @@ export function addCity(city) {
     value: city,
   };
 }
+
+export function determineLocation(loc) {
+  return {
+    type: 'DET_LOC',
+    value: loc,
+  };
+}

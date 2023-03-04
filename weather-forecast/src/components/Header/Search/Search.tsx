@@ -1,19 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Search.scss';
 
 import search from '../../../assets/icons/search.svg';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux/es/exports';
-import { addCity } from '../../../redux/action/citiesArrayOption';
+import { addCity, determineLocation } from '../../../redux/action/citiesArrayOption';
 
 const Search: React.FC = () => {
   const dispatch = useDispatch();
   const citiesArray = useSelector((state: any) => state.citiesArrayRedicer.citiesArray);
+  const location = useSelector((state: any) => state.citiesArrayRedicer.location);
   const [inputCity, setInputCity] = useState<string>('');
 
   const API_KEY = 'b69290eb7d314300a97120031232802';
 
-  const getData = async (request: string) => {
+  const getLocation = async () => {
+    const result = await fetch(`https://ipinfo.io/json?token=2fb6a0656d6ab6`).then((response) => {
+      return response.json();
+    });
+    if (result) {
+      dispatch(determineLocation(result.city + ' ' + result.country));
+    }
+  };
+
+  console.log('location', location);
+
+  useEffect(() => {
+    getLocation();
+  }, []);
+
+  useEffect(() => {
+    getForecast(location);
+  }, [location]);
+
+  const getForecast = async (request: string) => {
     let list = [...citiesArray];
     const result = await fetch(
       `http://api.worldweatheronline.com/premium/v1/weather.ashx?q=${request}&num_of_days=1&key=${API_KEY}&format=json`
@@ -30,9 +50,9 @@ const Search: React.FC = () => {
     }
   };
 
-  const handleEnterCity = (event: React.KeyboardEvent<HTMLElement>) => {
+  const handleAddCity = (event: React.KeyboardEvent<HTMLElement>) => {
     if (event.key === 'Enter') {
-      getData(inputCity);
+      getForecast(inputCity);
     }
   };
 
@@ -51,7 +71,7 @@ const Search: React.FC = () => {
           name="search"
           value={inputCity}
           tabIndex={0}
-          onKeyDown={handleEnterCity}
+          onKeyDown={handleAddCity}
           onChange={readInput}
         />
         <div className="search_icon">
@@ -60,7 +80,7 @@ const Search: React.FC = () => {
             alt="search icon"
             className="icon"
             onClick={() => {
-              getData(inputCity);
+              getForecast(inputCity);
             }}
           />
         </div>
