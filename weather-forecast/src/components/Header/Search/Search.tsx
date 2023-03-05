@@ -4,12 +4,11 @@ import './Search.scss';
 import search from '../../../assets/icons/search.svg';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux/es/exports';
-import { addCity } from '../../../redux/action/citiesArrayOption';
+import { editForecastArray } from '../../../redux/action/citiesArrayOption';
 
 const Search: React.FC = () => {
   const dispatch = useDispatch();
-  const citiesArray = useSelector((state: any) => state.citiesArrayRedicer.citiesArray);
-
+  const forecastArray = useSelector((state: any) => state.citiesArrayRedicer.forecastArray);
   const [inputCity, setInputCity] = useState<string>('');
 
   const API_KEY = 'b69290eb7d314300a97120031232802';
@@ -28,7 +27,7 @@ const Search: React.FC = () => {
   }, []);
 
   const getForecast = async (request: string) => {
-    let list = [...citiesArray];
+    let list = [...forecastArray];
     const result = await fetch(
       `http://api.worldweatheronline.com/premium/v1/weather.ashx?q=${request}&num_of_days=1&key=${API_KEY}&format=json`
     ).then((response) => {
@@ -36,11 +35,11 @@ const Search: React.FC = () => {
     });
 
     if (result.data.request[0].query) {
-      console.log(result.data);
-      console.log(result.data.request[0].query);
       list.length === 5 && list.pop();
-      !citiesArray.includes(result.data.request[0].query) && list.unshift(result.data.request[0].query);
-      dispatch(addCity(list));
+      if (list.length === 0 || list.findIndex((elem: any) => elem.request[0].query.includes(request)) === -1) {
+        list.unshift(result.data);
+      }
+      dispatch(editForecastArray(list));
     }
   };
 

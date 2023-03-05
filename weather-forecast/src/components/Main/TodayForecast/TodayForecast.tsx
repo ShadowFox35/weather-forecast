@@ -4,6 +4,7 @@ import React from 'react';
 import './TodayForecast.scss';
 
 const TodayForecast: React.FC = () => {
+
   return (
     <section className="today cart">
       <div className="today_main-info">

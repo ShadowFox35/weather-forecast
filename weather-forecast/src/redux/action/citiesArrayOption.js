@@ -1,20 +1,7 @@
-export function addCity(city) {
+export function editForecastArray(obj) {
   return {
-    type: 'ADD_CITY',
-    value: city,
+    type: 'ADD_FORECAST',
+    value: obj,
   };
 }
 
-export function determineLocation(loc) {
-  return {
-    type: 'DET_LOC',
-    value: loc,
-  };
-}
-
-export function editInputCity(city) {
-  return {
-    type: 'EDIT_CITY',
-    value: city,
-  };
-}

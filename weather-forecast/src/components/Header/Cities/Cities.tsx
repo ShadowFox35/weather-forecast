@@ -3,29 +3,29 @@ import './Cities.scss';
 
 import remove from '../../../assets/icons/remove.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCity } from '../../../redux/action/citiesArrayOption';
+import { editForecastArray } from '../../../redux/action/citiesArrayOption';
 
 const Cities: React.FC = () => {
   const dispatch = useDispatch();
-  const citiesArray = useSelector((state: any) => state.citiesArrayRedicer.citiesArray);
+  const forecastArray = useSelector((state: any) => state.citiesArrayRedicer.forecastArray);
 
   const deleteCity = (city: string) => {
-    let list = citiesArray.filter((elem: string) => elem !== city);
-    dispatch(addCity(list));
+    let list = forecastArray.filter((data: any) => data.request[0].query !== city);
+    dispatch(editForecastArray(list));
     console.log(city);
   };
 
   return (
     <section className="cities">
-      {citiesArray.map((city: string, index: number) => (
+      {forecastArray.map((data: any, index: number) => (
         <div className="city" key={index}>
-          <h2 className="city_name">{city}</h2>
+          <h2 className="city_name">{data.request[0].query}</h2>
           <img
             className="city_remove-icon"
             src={remove}
             alt="remove icon"
             onClick={() => {
-              deleteCity(city);
+              deleteCity(data.request[0].query);
             }}></img>
         </div>
       ))}
