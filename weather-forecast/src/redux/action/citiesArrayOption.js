@@ -1,6 +1,7 @@
-export function addCity(city) {
+export function editForecastArray(obj) {
   return {
-    type: 'ADD_CITY',
-    value: city,
+    type: 'ADD_FORECAST',
+    value: obj,
   };
 }
+

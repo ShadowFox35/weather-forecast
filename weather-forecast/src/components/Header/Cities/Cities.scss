@@ -9,12 +9,22 @@
     align-items: center;
     justify-content: flex-start;
     gap: 5px;
+    &:hover {
+      border: 1px solid #f5f3fe;
+      border-radius: 20px;
+      cursor: pointer;
+    }
     &_name {
       font-size: 16px;
     }
     &_remove-icon {
       width: 20px;
       height: 20px;
+      &:hover {
+        border: 1px solid #f5f3fe;
+        border-radius: 20px;
+        cursor: pointer;
+      }
     }
   }
 }

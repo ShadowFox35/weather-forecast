@@ -1,25 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Search.scss';
 
 import search from '../../../assets/icons/search.svg';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux/es/exports';
-import { addCity } from '../../../redux/action/citiesArrayOption';
+import { editForecastArray } from '../../../redux/action/citiesArrayOption';
 
 const Search: React.FC = () => {
   const dispatch = useDispatch();
-  const citiesArray = useSelector((state: any) => state.citiesArrayRedicer.citiesArray);
+  const forecastArray = useSelector((state: any) => state.citiesArrayRedicer.forecastArray);
   const [inputCity, setInputCity] = useState<string>('');
 
-  const enterCity = (event: React.KeyboardEvent<HTMLElement>) => {
-    if (event.key === 'Enter') {
-      let list = [...citiesArray];
-      !citiesArray.includes(inputCity) && list.push(inputCity);
-      dispatch(addCity(list));
+  const API_KEY = 'b69290eb7d314300a97120031232802';
+
+  const getLocation = async () => {
+    const result = await fetch(`https://ipinfo.io/json?token=0e45e46a363d54`).then((response) => {
+      return response.json();
+    });
+    if (result) {
+      getForecast(result.city + ' ' + result.country);
     }
   };
 
-  console.log('citiesArray', citiesArray);
+  useEffect(() => {
+    getLocation();
+  }, []);
+
+  const getForecast = async (request: string) => {
+    let list = [...forecastArray];
+    const result = await fetch(
+      `http://api.worldweatheronline.com/premium/v1/weather.ashx?q=${request}&num_of_days=1&key=${API_KEY}&format=json`
+    ).then((response) => {
+      return response.json();
+    });
+
+    if (result.data.request[0].query) {
+      list.length === 5 && list.pop();
+      if (list.length === 0 || list.findIndex((elem: any) => elem.request[0].query.includes(request)) === -1) {
+        list.unshift(result.data);
+      }
+      dispatch(editForecastArray(list));
+    }
+  };
+
+  const handleAddCity = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === 'Enter') {
+      getForecast(inputCity);
+    }
+  };
 
   const readInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputCity(event.target.value);
@@ -36,11 +64,18 @@ const Search: React.FC = () => {
           name="search"
           value={inputCity}
           tabIndex={0}
-          onKeyDown={enterCity}
+          onKeyDown={handleAddCity}
           onChange={readInput}
         />
         <div className="search_icon">
-          <img src={search} alt="search icon" className="icon" />
+          <img
+            src={search}
+            alt="search icon"
+            className="icon"
+            onClick={() => {
+              getForecast(inputCity);
+            }}
+          />
         </div>
       </div>
     </section>
