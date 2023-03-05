@@ -5,3 +5,9 @@ export function editForecastArray(obj) {
   };
 }
 
+export function editActiveForecast(obj) {
+  return {
+    type: 'ADD_ACTIVE',
+    value: obj,
+  };
+}
