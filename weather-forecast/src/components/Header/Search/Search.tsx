@@ -4,34 +4,28 @@ import './Search.scss';
 import search from '../../../assets/icons/search.svg';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux/es/exports';
-import { addCity, determineLocation } from '../../../redux/action/citiesArrayOption';
+import { addCity } from '../../../redux/action/citiesArrayOption';
 
 const Search: React.FC = () => {
   const dispatch = useDispatch();
   const citiesArray = useSelector((state: any) => state.citiesArrayRedicer.citiesArray);
-  const location = useSelector((state: any) => state.citiesArrayRedicer.location);
+
   const [inputCity, setInputCity] = useState<string>('');
 
   const API_KEY = 'b69290eb7d314300a97120031232802';
 
   const getLocation = async () => {
-    const result = await fetch(`https://ipinfo.io/json?token=2fb6a0656d6ab6`).then((response) => {
+    const result = await fetch(`https://ipinfo.io/json?token=0e45e46a363d54`).then((response) => {
       return response.json();
     });
     if (result) {
-      dispatch(determineLocation(result.city + ' ' + result.country));
+      getForecast(result.city + ' ' + result.country);
     }
   };
-
-  console.log('location', location);
 
   useEffect(() => {
     getLocation();
   }, []);
-
-  useEffect(() => {
-    getForecast(location);
-  }, [location]);
 
   const getForecast = async (request: string) => {
     let list = [...citiesArray];

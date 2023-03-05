@@ -11,3 +11,10 @@ export function determineLocation(loc) {
     value: loc,
   };
 }
+
+export function editInputCity(city) {
+  return {
+    type: 'EDIT_CITY',
+    value: city,
+  };
+}
