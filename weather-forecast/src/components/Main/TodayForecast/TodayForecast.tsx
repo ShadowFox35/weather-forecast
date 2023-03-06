@@ -1,7 +1,6 @@
 import moment from 'moment';
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { editActiveForecast } from '../../../redux/action/citiesArrayOption';
+import { useSelector } from 'react-redux';
 
 import './TodayForecast.scss';
 
@@ -9,16 +8,20 @@ import cloudy from '../../../assets/cards/cloudy.svg';
 import snowy from '../../../assets/cards/snowy.svg';
 import sunny from '../../../assets/cards/sunny.svg';
 import rainy from '../../../assets/cards/rainy.svg';
+import { RootState } from '../../../redux/store';
 
 const TodayForecast: React.FC = () => {
-  const forecastArray = useSelector((state: any) => state.citiesArrayRedicer.forecastArray);
-  const activeForecast = useSelector((state: any) => state.citiesArrayRedicer.activeForecast);
+  const forecastArray = useSelector((state: RootState) => state.citiesArrayRedicer.forecastArray);
+  const activeForecast = useSelector((state: RootState) => state.citiesArrayRedicer.activeForecast);
   const [weatherImg, setWeatherImg] = useState<string>('');
+
+  console.log(forecastArray.current_condition);
 
   const getImg = () => {
     switch (forecastArray[activeForecast]?.current_condition[0].weatherDesc[0].value) {
       case 'Light Snow':
       case 'Light Snow Shower, Mist':
+      case 'Light Rain And Snow Shower':
         setWeatherImg(snowy);
         break;
       case 'Overcast':
@@ -36,8 +39,6 @@ const TodayForecast: React.FC = () => {
         setWeatherImg('');
     }
   };
-
-  console.log(activeForecast);
 
   useEffect(() => {
     getImg();

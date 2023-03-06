@@ -5,10 +5,12 @@ import search from '../../../assets/icons/search.svg';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux/es/exports';
 import { editForecastArray } from '../../../redux/action/citiesArrayOption';
+import { RootState } from '../../../redux/store';
+import { forecastElemType } from '../../../types/objects';
 
 const Search: React.FC = () => {
   const dispatch = useDispatch();
-  const forecastArray = useSelector((state: any) => state.citiesArrayRedicer.forecastArray);
+  const forecastArray = useSelector((state: RootState) => state.citiesArrayRedicer.forecastArray);
   const [inputCity, setInputCity] = useState<string>('');
 
   const API_KEY = 'b69290eb7d314300a97120031232802';
@@ -36,7 +38,7 @@ const Search: React.FC = () => {
 
     if (result.data.request[0].query) {
       list.length === 5 && list.pop();
-      if (list.length === 0 || list.findIndex((elem: any) => elem.request[0].query.includes(request)) === -1) {
+      if (list.length === 0 || list.findIndex((elem: forecastElemType) => elem.request[0].query.includes(request)) === -1) {
         list.unshift(result.data);
       }
       dispatch(editForecastArray(list));
