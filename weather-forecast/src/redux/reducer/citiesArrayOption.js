@@ -1,6 +1,6 @@
 const ininialState = {
   forecastArray: [],
-  activeForecast:[],
+  activeForecast: 0,
 };
 
 export default function citiesArrayRedicer(state = ininialState, action) {

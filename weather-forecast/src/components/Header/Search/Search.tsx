@@ -4,7 +4,7 @@ import './Search.scss';
 import search from '../../../assets/icons/search.svg';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux/es/exports';
-import { editActiveForecast, editForecastArray } from '../../../redux/action/citiesArrayOption';
+import { editForecastArray } from '../../../redux/action/citiesArrayOption';
 
 const Search: React.FC = () => {
   const dispatch = useDispatch();
@@ -38,7 +38,6 @@ const Search: React.FC = () => {
       list.length === 5 && list.pop();
       if (list.length === 0 || list.findIndex((elem: any) => elem.request[0].query.includes(request)) === -1) {
         list.unshift(result.data);
-        dispatch(editActiveForecast(result.data));
       }
       dispatch(editForecastArray(list));
     }

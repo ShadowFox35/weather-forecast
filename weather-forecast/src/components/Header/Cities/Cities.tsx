@@ -8,15 +8,16 @@ import { editActiveForecast, editForecastArray } from '../../../redux/action/cit
 const Cities: React.FC = () => {
   const dispatch = useDispatch();
   const forecastArray = useSelector((state: any) => state.citiesArrayRedicer.forecastArray);
-  // const activeForecast = useSelector((state: any) => state.citiesArrayRedicer.activeForecast);
 
   const deleteCity = (city: string) => {
-    let list = forecastArray.filter((data: any) => data.request[0].query !== city);
-    dispatch(editForecastArray(list));
+    if (forecastArray.length > 1) {
+      let list = forecastArray.filter((data: any) => data.request[0].query !== city);
+      dispatch(editForecastArray(list));
+    }
   };
 
-  const chooseCity = (data: any) => {
-    dispatch(editActiveForecast(data));
+  const chooseCity = (index: any) => {
+    dispatch(editActiveForecast(index));
   };
 
   return (
@@ -26,7 +27,7 @@ const Cities: React.FC = () => {
           <h2
             className="city_name"
             onClick={() => {
-              chooseCity(data);
+              chooseCity(index);
             }}>
             {data.request[0].query}{' '}
           </h2>
