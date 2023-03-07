@@ -8,6 +8,7 @@ import cloudy from '../../../assets/cards/cloudy.svg';
 import snowy from '../../../assets/cards/snowy.svg';
 import sunny from '../../../assets/cards/sunny.svg';
 import rainy from '../../../assets/cards/rainy.svg';
+import foggy from '../../../assets/cards/foggy.svg';
 import { RootState } from '../../../redux/store';
 
 const TodayForecast: React.FC = () => {
@@ -18,17 +19,23 @@ const TodayForecast: React.FC = () => {
   const getImg = () => {
     switch (forecastArray[activeForecast]?.current_condition[0].weatherDesc[0].value) {
       case 'Light Snow':
-      case 'Light Snow Shower, Mist':
       case 'Light Rain And Snow Shower':
       case 'Light Snow Shower, Heavy Snow Shower':
         setWeatherImg(snowy);
         break;
       case 'Overcast':
       case 'Partly cloudy':
-      case 'Mist, Shallow Fog':
         setWeatherImg(cloudy);
         break;
+      case 'Mist':
+      case 'Mist, Shallow Fog':
+      case 'Light Rain, Mist':
+      case 'Light Snow Shower, Mist':
+      case 'Smoke, Haze':
+        setWeatherImg(foggy);
+        break;
       case 'Light Rain':
+      case 'Light Rain Shower':
         setWeatherImg(rainy);
         break;
       case 'Clear':
