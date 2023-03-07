@@ -15,17 +15,17 @@ const TodayForecast: React.FC = () => {
   const activeForecast = useSelector((state: RootState) => state.citiesArrayRedicer.activeForecast);
   const [weatherImg, setWeatherImg] = useState<string>('');
 
-  console.log(forecastArray.current_condition);
-
   const getImg = () => {
     switch (forecastArray[activeForecast]?.current_condition[0].weatherDesc[0].value) {
       case 'Light Snow':
       case 'Light Snow Shower, Mist':
       case 'Light Rain And Snow Shower':
+      case 'Light Snow Shower, Heavy Snow Shower':
         setWeatherImg(snowy);
         break;
       case 'Overcast':
       case 'Partly cloudy':
+      case 'Mist, Shallow Fog':
         setWeatherImg(cloudy);
         break;
       case 'Light Rain':
@@ -42,7 +42,7 @@ const TodayForecast: React.FC = () => {
 
   useEffect(() => {
     getImg();
-  }, [forecastArray]);
+  }, [forecastArray, activeForecast]);
 
   return (
     <section className="today cart">

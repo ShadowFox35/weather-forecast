@@ -4,7 +4,7 @@ import './Search.scss';
 import search from '../../../assets/icons/search.svg';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux/es/exports';
-import { editForecastArray } from '../../../redux/action/citiesArrayOption';
+import { editActiveForecast, editForecastArray } from '../../../redux/action/citiesArrayOption';
 import { RootState } from '../../../redux/store';
 import { forecastElemType } from '../../../types/objects';
 
@@ -42,6 +42,7 @@ const Search: React.FC = () => {
         list.unshift(result.data);
       }
       dispatch(editForecastArray(list));
+      dispatch(editActiveForecast(0));
     }
   };
 
