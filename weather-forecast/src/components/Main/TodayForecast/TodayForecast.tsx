@@ -21,6 +21,7 @@ const TodayForecast: React.FC = () => {
       case 'Light Snow':
       case 'Light Rain And Snow Shower':
       case 'Light Snow Shower, Heavy Snow Shower':
+      case 'Patchy light snow':
         setWeatherImg(snowy);
         break;
       case 'Overcast':

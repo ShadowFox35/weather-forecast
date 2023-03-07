@@ -7,18 +7,15 @@ import { useDispatch } from 'react-redux/es/exports';
 import { editActiveForecast, editForecastArray } from '../../../redux/action/citiesArrayOption';
 import { RootState } from '../../../redux/store';
 import { forecastElemType } from '../../../types/objects';
+import { fetchResult, locationResult } from '../../../services/getWeatherForecast';
 
 const Search: React.FC = () => {
   const dispatch = useDispatch();
   const forecastArray = useSelector((state: RootState) => state.citiesArrayRedicer.forecastArray);
   const [inputCity, setInputCity] = useState<string>('');
 
-  const API_KEY = 'b69290eb7d314300a97120031232802';
-
   const getLocation = async () => {
-    const result = await fetch(`https://ipinfo.io/json?token=0e45e46a363d54`).then((response) => {
-      return response.json();
-    });
+    const result = await locationResult();
     if (result) {
       getForecast(result.city + ' ' + result.country);
     }
@@ -30,11 +27,7 @@ const Search: React.FC = () => {
 
   const getForecast = async (request: string) => {
     let list = [...forecastArray];
-    const result = await fetch(
-      `http://api.worldweatheronline.com/premium/v1/weather.ashx?q=${request}&num_of_days=1&key=${API_KEY}&format=json`
-    ).then((response) => {
-      return response.json();
-    });
+    const result = await fetchResult(request);
 
     if (result.data.request[0].query) {
       list.length === 5 && list.pop();
