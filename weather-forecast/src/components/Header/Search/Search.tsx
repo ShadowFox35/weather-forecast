@@ -12,7 +12,6 @@ import { getDayForecast, getLocation } from '../../../services/getWeatherForecas
 const Search: React.FC = () => {
   const dispatch = useDispatch();
   const forecastArray = useSelector((state: RootState) => state.citiesArrayRedicer.forecastArray);
-  const activeForecast = useSelector((state: RootState) => state.citiesArrayRedicer.activeForecast);
   const [inputCity, setInputCity] = useState<string>('');
 
   const sendLocation = async () => {
@@ -23,7 +22,11 @@ const Search: React.FC = () => {
   };
 
   useEffect(() => {
-    sendLocation();
+    if (localStorage.getItem('citiesForecast')) {
+      dispatch(editForecastArray(JSON.parse(localStorage.getItem('citiesForecast') || '[]')));
+    } else {
+      sendLocation();
+    }
   }, []);
 
   const getForecast = async (request: string) => {
@@ -36,11 +39,12 @@ const Search: React.FC = () => {
         list.unshift(result.data);
       }
       list[0].weather.shift();
+
       dispatch(editForecastArray(list));
       dispatch(editActiveForecast(0));
+      localStorage.setItem('citiesForecast', JSON.stringify(list));
     }
   };
-
 
   const handleAddCity = (event: React.KeyboardEvent<HTMLElement>) => {
     if (event.key === 'Enter') {
