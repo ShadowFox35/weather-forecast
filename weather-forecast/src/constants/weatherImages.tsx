@@ -20,6 +20,7 @@ export const imagesArray: any = {
   'Patches Of Fog': foggy,
   'Smoke, Haze': foggy,
   'Light drizzle': lightRainy,
+  'Light Drizzle And Rain': lightRainy,
   'Patchy rain possible': lightRainy,
   'Light Rain': lightRainy,
   Rain: rainy,

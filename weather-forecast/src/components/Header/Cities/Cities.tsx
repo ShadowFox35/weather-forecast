@@ -14,6 +14,8 @@ const Cities: React.FC = () => {
   const forecastArray = useSelector((state: RootState) => state.citiesArrayRedicer.forecastArray);
   const activeForecast = useSelector((state: RootState) => state.citiesArrayRedicer.activeForecast);
 
+  const normalizeCity = (data: forecastElemType) => data.request[0].query.split(' ')[0].replace(',', '');
+
   const deleteCity = (city: string, index: number) => {
     if (forecastArray.length > 1) {
       let list = forecastArray.filter((data: forecastElemType) => data.request[0].query !== city);
@@ -39,7 +41,7 @@ const Cities: React.FC = () => {
             onClick={() => {
               chooseCity(index);
             }}>
-            {data.request[0].query || ''}{' '}
+            {normalizeCity(data) || ''}{' '}
           </h2>
           <img
             className={clsx('city_remove-icon', { disable: forecastArray.length === 1 })}
