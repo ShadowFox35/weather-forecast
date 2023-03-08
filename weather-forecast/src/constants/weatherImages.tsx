@@ -8,6 +8,7 @@ import thunder from '../assets/cards/thunder.svg';
 
 export const imagesArray: any = {
   'Light Snow': snowy,
+  'Light Snow, Mist': snowy,
   'Light Rain And Snow Shower': snowy,
   'Light Snow Shower, Heavy Snow Shower': snowy,
   'Patchy light snow': snowy,

@@ -16,7 +16,7 @@ const WeekForecast: React.FC = () => {
     <section className="week ">
       {forecastArray[activeForecast]?.weather.map((elem: weatherWeekElemType, index: number) => (
         <div className="week_main-info cart" key={index}>
-          <p className="date">{moment(elem.date).format('ddd')}</p>
+          <strong className="date">{moment(elem.date).format('ddd')}</strong>
           <img className="icon" src={imagesArray[elem.hourly[4].weatherDesc[0].value] || imagesArray.default} alt="windy weather" />
           <div className="temp">{elem.avgtempC}°C</div>
         </div>

@@ -30,19 +30,22 @@ const Search: React.FC = () => {
   }, []);
 
   const getForecast = async (request: string) => {
-    let list = [...forecastArray];
-    const result = await getDayForecast(request);
+    if (
+      forecastArray.findIndex((elem: forecastElemType) =>
+        elem.request[0].query.toLocaleLowerCase().includes(request.toLocaleLowerCase())
+      ) === -1
+    ) {
+      let list = [...forecastArray];
+      const result = await getDayForecast(request);
 
-    if (result.data.request[0].query) {
-      list.length === 5 && list.pop();
-      if (list.length === 0 || list.findIndex((elem: forecastElemType) => elem.request[0].query.includes(request)) === -1) {
+      if (result.data.request[0].query) {
+        list.length === 5 && list.pop();
         list.unshift(result.data);
+        list[0].weather.shift();
+        dispatch(editForecastArray(list));
+        dispatch(editActiveForecast(0));
+        localStorage.setItem('citiesForecast', JSON.stringify(list));
       }
-      list[0].weather.shift();
-
-      dispatch(editForecastArray(list));
-      dispatch(editActiveForecast(0));
-      localStorage.setItem('citiesForecast', JSON.stringify(list));
     }
   };
 
