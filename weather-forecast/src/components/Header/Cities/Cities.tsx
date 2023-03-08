@@ -7,6 +7,7 @@ import { RootState } from '../../../redux/store';
 
 import removeIcon from '../../../assets/icons/remove.svg';
 import { forecastElemType } from '../../../types/objects';
+import clsx from 'clsx';
 
 const Cities: React.FC = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const Cities: React.FC = () => {
       let list = forecastArray.filter((data: forecastElemType) => data.request[0].query !== city);
       dispatch(editForecastArray(list));
       localStorage.setItem('citiesForecast', JSON.stringify(list));
+
       if (activeForecast !== 0 && index <= activeForecast) {
         dispatch(editActiveForecast(activeForecast - 1));
       }
@@ -31,7 +33,7 @@ const Cities: React.FC = () => {
   return (
     <section className="cities">
       {forecastArray.map((data: forecastElemType, index: number) => (
-        <div className="city" key={index}>
+        <div className={clsx('city', { active: index === activeForecast })} key={index}>
           <h2
             className="city_name"
             onClick={() => {
@@ -40,7 +42,7 @@ const Cities: React.FC = () => {
             {data.request[0].query || ''}{' '}
           </h2>
           <img
-            className="city_remove-icon"
+            className={clsx('city_remove-icon', { disable: forecastArray.length === 1 })}
             src={removeIcon}
             alt="remove icon"
             onClick={() => {
