@@ -1,56 +1,15 @@
 import moment from 'moment';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import './TodayForecast.scss';
 
-import cloudy from '../../../assets/cards/cloudy.svg';
-import snowy from '../../../assets/cards/snowy.svg';
-import sunny from '../../../assets/cards/sunny.svg';
-import rainy from '../../../assets/cards/rainy.svg';
-import foggy from '../../../assets/cards/foggy.svg';
 import { RootState } from '../../../redux/store';
+import { imagesArray } from '../../../constants/weatherImages';
 
 const TodayForecast: React.FC = () => {
   const forecastArray = useSelector((state: RootState) => state.citiesArrayRedicer.forecastArray);
   const activeForecast = useSelector((state: RootState) => state.citiesArrayRedicer.activeForecast);
-  const [weatherImg, setWeatherImg] = useState<string>('');
-
-  const getImg = () => {
-    switch (forecastArray[activeForecast]?.current_condition[0].weatherDesc[0].value) {
-      case 'Light Snow':
-      case 'Light Rain And Snow Shower':
-      case 'Light Snow Shower, Heavy Snow Shower':
-      case 'Patchy light snow':
-        setWeatherImg(snowy);
-        break;
-      case 'Overcast':
-      case 'Partly cloudy':
-        setWeatherImg(cloudy);
-        break;
-      case 'Mist':
-      case 'Mist, Shallow Fog':
-      case 'Light Rain, Mist':
-      case 'Light Snow Shower, Mist':
-      case 'Smoke, Haze':
-        setWeatherImg(foggy);
-        break;
-      case 'Light Rain':
-      case 'Light Rain Shower':
-        setWeatherImg(rainy);
-        break;
-      case 'Clear':
-      case 'Sunny':
-        setWeatherImg(sunny);
-        break;
-      default:
-        setWeatherImg('');
-    }
-  };
-
-  useEffect(() => {
-    getImg();
-  }, [forecastArray, activeForecast]);
 
   return (
     <section className="today cart">
@@ -58,7 +17,11 @@ const TodayForecast: React.FC = () => {
         <h2 className="city">{forecastArray[activeForecast]?.request[0].query || ''} </h2>
         <time className="today-date">{moment().format('LLLL')}</time>
         <figure className="today-forecast">
-          <img className="icon" src={weatherImg} alt="weather" />
+          <img
+            className="icon"
+            src={imagesArray[forecastArray[activeForecast]?.current_condition[0].weatherDesc[0].value] || imagesArray.default}
+            alt="weather"
+          />
           <figcaption className="info">
             <strong className="today-temp">{forecastArray[activeForecast]?.current_condition[0].temp_C || ''}°C</strong>
             <strong className="today-weather">{forecastArray[activeForecast]?.current_condition[0].weatherDesc[0].value || ''}</strong>

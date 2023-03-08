@@ -1,12 +1,7 @@
-export interface weekCardType {
-  day: string;
-  img: string;
-  temp: string;
-}
-
 export interface forecastElemType {
   current_condition: currentConditionType;
   request: requestType;
+  weather: weatherElemType;
 }
 
 export interface currentConditionType {
@@ -24,6 +19,7 @@ export interface currentConditionFirstElemType {
 export interface weatherDescType {
   value: string;
 }
+
 export interface weatherIconUrlType {
   value: string;
 }
@@ -35,4 +31,30 @@ export interface requestType {
 export interface requestFirstElemType {
   query: string;
   type: string;
+}
+
+export interface weatherElemType {
+  0: weatherWeekElemType;
+  1: weatherWeekElemType;
+  2: weatherWeekElemType;
+  3: weatherWeekElemType;
+  4: weatherWeekElemType;
+  5: weatherWeekElemType;
+}
+
+export interface weatherWeekElemType {
+  date: string;
+  avgtempC: string;
+  hourly: hourlyElemType;
+}
+export interface hourlyElemType {
+  4: hourlyAverageElemType;
+}
+
+export interface hourlyAverageElemType {
+  weatherDesc: weatherDescThirdElemType;
+}
+
+export interface weatherDescThirdElemType {
+  0: weatherDescType;
 }

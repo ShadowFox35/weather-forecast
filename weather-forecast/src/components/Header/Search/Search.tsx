@@ -7,37 +7,40 @@ import { useDispatch } from 'react-redux/es/exports';
 import { editActiveForecast, editForecastArray } from '../../../redux/action/citiesArrayOption';
 import { RootState } from '../../../redux/store';
 import { forecastElemType } from '../../../types/objects';
-import { fetchResult, locationResult } from '../../../services/getWeatherForecast';
+import { getDayForecast, getLocation } from '../../../services/getWeatherForecast';
 
 const Search: React.FC = () => {
   const dispatch = useDispatch();
   const forecastArray = useSelector((state: RootState) => state.citiesArrayRedicer.forecastArray);
+  const activeForecast = useSelector((state: RootState) => state.citiesArrayRedicer.activeForecast);
   const [inputCity, setInputCity] = useState<string>('');
 
-  const getLocation = async () => {
-    const result = await locationResult();
+  const sendLocation = async () => {
+    const result = await getLocation();
     if (result) {
       getForecast(result.city + ' ' + result.country);
     }
   };
 
   useEffect(() => {
-    getLocation();
+    sendLocation();
   }, []);
 
   const getForecast = async (request: string) => {
     let list = [...forecastArray];
-    const result = await fetchResult(request);
+    const result = await getDayForecast(request);
 
     if (result.data.request[0].query) {
       list.length === 5 && list.pop();
       if (list.length === 0 || list.findIndex((elem: forecastElemType) => elem.request[0].query.includes(request)) === -1) {
         list.unshift(result.data);
       }
+      list[0].weather.shift();
       dispatch(editForecastArray(list));
       dispatch(editActiveForecast(0));
     }
   };
+
 
   const handleAddCity = (event: React.KeyboardEvent<HTMLElement>) => {
     if (event.key === 'Enter') {
