@@ -5,17 +5,20 @@
   gap: 30px;
 
   .city {
+    min-width: 80px;
+    height: 45px;
+    padding: 5px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 5px;
     &:hover {
-      border: 1px solid #f5f3fe;
-      border-radius: 20px;
+      background: rgba(245, 243, 254, 0.2);
+      border-radius: 10px;
       cursor: pointer;
     }
     &_name {
-      font-size: 16px;
+      font-size: 15px;
     }
     &_remove-icon {
       width: 20px;
@@ -26,5 +29,14 @@
         cursor: pointer;
       }
     }
+
+    .disable {
+      display: none;
+    }
+  }
+
+  .active {
+    background: rgba(245, 243, 254, 0.2);
+    border-radius: 10px;
   }
 }

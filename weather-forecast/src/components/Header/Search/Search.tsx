@@ -4,42 +4,48 @@ import './Search.scss';
 import search from '../../../assets/icons/search.svg';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux/es/exports';
-import { editForecastArray } from '../../../redux/action/citiesArrayOption';
+import { editActiveForecast, editForecastArray } from '../../../redux/action/citiesArrayOption';
+import { RootState } from '../../../redux/store';
+import { forecastElemType } from '../../../types/objects';
+import { getDayForecast, getLocation } from '../../../services/getWeatherForecast';
 
 const Search: React.FC = () => {
   const dispatch = useDispatch();
-  const forecastArray = useSelector((state: any) => state.citiesArrayRedicer.forecastArray);
+  const forecastArray = useSelector((state: RootState) => state.citiesArrayRedicer.forecastArray);
   const [inputCity, setInputCity] = useState<string>('');
 
-  const API_KEY = 'b69290eb7d314300a97120031232802';
-
-  const getLocation = async () => {
-    const result = await fetch(`https://ipinfo.io/json?token=0e45e46a363d54`).then((response) => {
-      return response.json();
-    });
+  const sendLocation = async () => {
+    const result = await getLocation();
     if (result) {
       getForecast(result.city + ' ' + result.country);
     }
   };
 
   useEffect(() => {
-    getLocation();
+    if (localStorage.getItem('citiesForecast')) {
+      dispatch(editForecastArray(JSON.parse(localStorage.getItem('citiesForecast') || '[]')));
+    } else {
+      sendLocation();
+    }
   }, []);
 
   const getForecast = async (request: string) => {
-    let list = [...forecastArray];
-    const result = await fetch(
-      `http://api.worldweatheronline.com/premium/v1/weather.ashx?q=${request}&num_of_days=1&key=${API_KEY}&format=json`
-    ).then((response) => {
-      return response.json();
-    });
+    if (
+      forecastArray.findIndex((elem: forecastElemType) =>
+        elem.request[0].query.toLocaleLowerCase().includes(request.toLocaleLowerCase())
+      ) === -1
+    ) {
+      let list = [...forecastArray];
+      const result = await getDayForecast(request);
 
-    if (result.data.request[0].query) {
-      list.length === 5 && list.pop();
-      if (list.length === 0 || list.findIndex((elem: any) => elem.request[0].query.includes(request)) === -1) {
+      if (result.data.request[0].query) {
+        list.length === 5 && list.pop();
         list.unshift(result.data);
+        list[0].weather.shift();
+        dispatch(editForecastArray(list));
+        dispatch(editActiveForecast(0));
+        localStorage.setItem('citiesForecast', JSON.stringify(list));
       }
-      dispatch(editForecastArray(list));
     }
   };
 
