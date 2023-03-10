@@ -1,10 +1,10 @@
 import moment from 'moment';
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { editActiveForecast, editForecastArray } from '../../redux/action/citiesArrayOption';
-import { RootState } from '../../redux/store';
+import { useDispatch } from 'react-redux';
+import {editForecastArray } from '../../redux/action/citiesArrayOption';
+import { useAppSelector } from '../../redux/reducer/rootReducer';
+import { forecastArraySelector } from '../../redux/selectots/citiesArrayOption';
 import { getDayForecast, getLocation } from '../../services/getWeatherForecast';
-import { forecastElemType } from '../../types/objects';
 import './Main.scss';
 
 import TodayForecast from './TodayForecast/TodayForecast';
@@ -12,12 +12,16 @@ import WeekForecast from './WeekForecast/WeekForecast';
 
 const Main: React.FC = () => {
   const dispatch = useDispatch();
-  const forecastArray = useSelector((state: RootState) => state.citiesArrayRedicer.forecastArray);
+  const forecastArray = useAppSelector(forecastArraySelector);
 
   const sendLocation = async () => {
-    const result = await getLocation();
-    if (result) {
-      getFirstForecast(result.city + ' ' + result.country);
+    try {
+      const result = await getLocation();
+      if (result) {
+        getFirstForecast(result.city + ' ' + result.country);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -36,13 +40,16 @@ const Main: React.FC = () => {
 
   const getFirstForecast = async (request: string) => {
     let list = [...forecastArray];
-    const result = await getDayForecast(request);
-
-    if (result.data.request[0].query) {
-      list.push(result.data);
-      list[0].weather.shift();
-      dispatch(editForecastArray(list));
-      localStorage.setItem('citiesForecast', JSON.stringify(list));
+    try {
+      const result = await getDayForecast(request);
+      if (result.data.request[0].query) {
+        list.push(result.data);
+        list[0].weather.shift();
+        dispatch(editForecastArray(list));
+        localStorage.setItem('citiesForecast', JSON.stringify(list));
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

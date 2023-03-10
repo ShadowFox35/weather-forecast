@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import './Search.scss';
 
 import search from '../../../assets/icons/search.svg';
-import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux/es/exports';
 import { editActiveForecast, editForecastArray } from '../../../redux/action/citiesArrayOption';
-import { RootState } from '../../../redux/store';
 import { forecastElemType } from '../../../types/objects';
 import { getDayForecast } from '../../../services/getWeatherForecast';
+import { forecastArraySelector } from '../../../redux/selectots/citiesArrayOption';
+import { useAppSelector } from '../../../redux/reducer/rootReducer';
 
 const Search: React.FC = () => {
   const dispatch = useDispatch();
-  const forecastArray = useSelector((state: RootState) => state.citiesArrayRedicer.forecastArray);
+  const forecastArray = useAppSelector(forecastArraySelector);
   const [inputCity, setInputCity] = useState<string>('');
 
   const getForecast = async (request: string) => {
@@ -21,15 +21,19 @@ const Search: React.FC = () => {
       ) === -1
     ) {
       let list = [...forecastArray];
-      const result = await getDayForecast(request);
 
-      if (result.data.request[0].query) {
-        list.length === 5 && list.pop();
-        list.unshift(result.data);
-        list[0].weather.shift();
-        dispatch(editForecastArray(list));
-        dispatch(editActiveForecast(0));
-        localStorage.setItem('citiesForecast', JSON.stringify(list));
+      try {
+        const result = await getDayForecast(request);
+        if (result.data.request[0].query) {
+          list.length === 5 && list.pop();
+          list.unshift(result.data);
+          list[0].weather.shift();
+          dispatch(editForecastArray(list));
+          dispatch(editActiveForecast(0));
+          localStorage.setItem('citiesForecast', JSON.stringify(list));
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
   };

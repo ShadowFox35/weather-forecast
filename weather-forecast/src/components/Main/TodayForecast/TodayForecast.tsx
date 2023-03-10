@@ -6,10 +6,13 @@ import './TodayForecast.scss';
 
 import { RootState } from '../../../redux/store';
 import { imagesArray } from '../../../constants/weatherImages';
+import { activeForecastSelector, forecastArraySelector } from '../../../redux/selectots/citiesArrayOption';
+import { useAppSelector } from '../../../redux/reducer/rootReducer';
+
 
 const TodayForecast: React.FC = () => {
-  const forecastArray = useSelector((state: RootState) => state.citiesArrayRedicer.forecastArray);
-  const activeForecast = useSelector((state: RootState) => state.citiesArrayRedicer.activeForecast);
+  const forecastArray = useAppSelector(forecastArraySelector);
+  const activeForecast = useAppSelector(activeForecastSelector);
 
   return (
     <section className="today cart">
@@ -33,8 +36,9 @@ const TodayForecast: React.FC = () => {
         <div className="today_secondary-info_item">
           <img className="icon" src={`${process.env.PUBLIC_URL}/assets/weatherOptions/temperature.svg`} alt="weather" />
           <p className="info">Feels like</p>
-          <strong className="value">{forecastArray[activeForecast]?.current_condition[0].FeelsLikeC || ''}°C </strong>
+          <strong className="value">{forecastArray[activeForecast]?.current_condition[0].FeelsLikeC || ''}°C</strong>
         </div>
+
         <div className="today_secondary-info_item">
           <img className="icon" src={`${process.env.PUBLIC_URL}/assets/weatherOptions/wind.svg`} alt="weather" />
           <p className="info">Wind</p>

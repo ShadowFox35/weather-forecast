@@ -1,20 +1,26 @@
 import React, { useCallback } from 'react';
 import './Cities.scss';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { editActiveForecast, editForecastArray } from '../../../redux/action/citiesArrayOption';
-import { RootState } from '../../../redux/store';
 
 import removeIcon from '../../../assets/icons/remove.svg';
 import { forecastElemType } from '../../../types/objects';
 import clsx from 'clsx';
+import { activeForecastSelector, forecastArraySelector } from '../../../redux/selectots/citiesArrayOption';
+import { useAppSelector } from '../../../redux/reducer/rootReducer';
 
 const Cities: React.FC = () => {
   const dispatch = useDispatch();
-  const forecastArray = useSelector((state: RootState) => state.citiesArrayRedicer.forecastArray);
-  const activeForecast = useSelector((state: RootState) => state.citiesArrayRedicer.activeForecast);
+  const forecastArray = useAppSelector(forecastArraySelector);
+  const activeForecast = useAppSelector(activeForecastSelector);
 
-  const normalizeCity = useCallback((data: forecastElemType) => data.request[0].query.split(' ')[0].replace(',', ''), []);
+  const normalizeCity = useCallback(
+    (data: forecastElemType) => {
+      return data.request[0].query.split(' ')[0].replace(',', '');
+    },
+    [activeForecast]
+  );
 
   const deleteCity = (city: string, index: number) => {
     if (forecastArray.length > 1) {
