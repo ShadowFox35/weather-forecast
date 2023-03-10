@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Search.scss';
 
 import search from '../../../assets/icons/search.svg';
@@ -7,27 +7,27 @@ import { useDispatch } from 'react-redux/es/exports';
 import { editActiveForecast, editForecastArray } from '../../../redux/action/citiesArrayOption';
 import { RootState } from '../../../redux/store';
 import { forecastElemType } from '../../../types/objects';
-import { getDayForecast, getLocation } from '../../../services/getWeatherForecast';
+import { getDayForecast } from '../../../services/getWeatherForecast';
 
 const Search: React.FC = () => {
   const dispatch = useDispatch();
   const forecastArray = useSelector((state: RootState) => state.citiesArrayRedicer.forecastArray);
   const [inputCity, setInputCity] = useState<string>('');
 
-  const sendLocation = async () => {
-    const result = await getLocation();
-    if (result) {
-      getForecast(result.city + ' ' + result.country);
-    }
-  };
+  // const sendLocation = async () => {
+  //   const result = await getLocation();
+  //   if (result) {
+  //     getForecast(result.city + ' ' + result.country);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (localStorage.getItem('citiesForecast')) {
-      dispatch(editForecastArray(JSON.parse(localStorage.getItem('citiesForecast') || '[]')));
-    } else {
-      sendLocation();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (localStorage.getItem('citiesForecast')) {
+  //     dispatch(editForecastArray(JSON.parse(localStorage.getItem('citiesForecast') || '[]')));
+  //   } else {
+  //     sendLocation();
+  //   }
+  // }, []);
 
   const getForecast = async (request: string) => {
     if (

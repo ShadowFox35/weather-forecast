@@ -17,8 +17,6 @@ const Cities: React.FC = () => {
   const normalizeCity = (data: forecastElemType) => data.request[0].query.split(' ')[0].replace(',', '');
 
   const deleteCity = (city: string, index: number) => {
-    console.log(111);
-
     if (forecastArray.length > 1) {
       let list = forecastArray.filter((data: forecastElemType) => data.request[0].query !== city);
       dispatch(editForecastArray(list));
