@@ -14,21 +14,6 @@ const Search: React.FC = () => {
   const forecastArray = useSelector((state: RootState) => state.citiesArrayRedicer.forecastArray);
   const [inputCity, setInputCity] = useState<string>('');
 
-  // const sendLocation = async () => {
-  //   const result = await getLocation();
-  //   if (result) {
-  //     getForecast(result.city + ' ' + result.country);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (localStorage.getItem('citiesForecast')) {
-  //     dispatch(editForecastArray(JSON.parse(localStorage.getItem('citiesForecast') || '[]')));
-  //   } else {
-  //     sendLocation();
-  //   }
-  // }, []);
-
   const getForecast = async (request: string) => {
     if (
       forecastArray.findIndex((elem: forecastElemType) =>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import './Cities.scss';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,27 +14,22 @@ const Cities: React.FC = () => {
   const forecastArray = useSelector((state: RootState) => state.citiesArrayRedicer.forecastArray);
   const activeForecast = useSelector((state: RootState) => state.citiesArrayRedicer.activeForecast);
 
-  const normalizeCity = (data: forecastElemType) => data.request[0].query.split(' ')[0].replace(',', '');
+  const normalizeCity = useCallback((data: forecastElemType) => data.request[0].query.split(' ')[0].replace(',', ''), []);
 
   const deleteCity = (city: string, index: number) => {
     if (forecastArray.length > 1) {
       let list = forecastArray.filter((data: forecastElemType) => data.request[0].query !== city);
       dispatch(editForecastArray(list));
       localStorage.setItem('citiesForecast', JSON.stringify(list));
-      console.log(activeForecast !== 0 && index <= activeForecast);
 
-      if (activeForecast !== 0 && index <= activeForecast) {
-        console.log('result ', activeForecast - 1);
+      if (activeForecast === forecastArray.length - 1) {
         const newIndex = activeForecast - 1;
         dispatch(editActiveForecast(newIndex));
       }
     }
   };
-  console.log('asd', activeForecast);
 
   const chooseCity = (index: number) => {
-    console.log('pidor');
-
     dispatch(editActiveForecast(index));
   };
 
