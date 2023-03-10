@@ -5,9 +5,9 @@ const ininialState = {
 
 export default function citiesArrayRedicer(state = ininialState, action) {
   switch (action.type) {
-      case 'ADD_FORECAST':
+      case 'CHANGE_FORECAST':
         return { ...state, forecastArray: action.value };
-        case 'ADD_ACTIVE':
+        case 'CHANGE_ACTIVE':
         return { ...state, activeForecast: action.value };
     default:
       return state;

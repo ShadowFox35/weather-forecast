@@ -2,7 +2,7 @@ import React from 'react';
 
 import './WeekForecast.scss';
 
-import { forecastElemType, weatherType } from '../../../types/forecast';
+import {weatherType } from '../../../types/forecast';
 import moment from 'moment';
 import { imagesArray } from '../../../constants/weatherImages';
 import { activeForecastSelector, forecastArraySelector } from '../../../redux/selectots/citiesArrayOption';
