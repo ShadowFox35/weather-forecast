@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import {editForecastArray } from '../../redux/action/citiesArrayOption';
+import { editForecastArray } from '../../redux/action/citiesArrayOption';
 import { useAppSelector } from '../../redux/reducer/rootReducer';
 import { forecastArraySelector } from '../../redux/selectots/citiesArrayOption';
 import { getDayForecast, getLocation } from '../../services/getWeatherForecast';

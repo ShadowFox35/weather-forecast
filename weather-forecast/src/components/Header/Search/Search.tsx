@@ -4,7 +4,7 @@ import './Search.scss';
 import search from '../../../assets/icons/search.svg';
 import { useDispatch } from 'react-redux/es/exports';
 import { editActiveForecast, editForecastArray } from '../../../redux/action/citiesArrayOption';
-import { forecastElemType } from '../../../types/objects';
+import { forecastElemType } from '../../../types/forecast';
 import { getDayForecast } from '../../../services/getWeatherForecast';
 import { forecastArraySelector } from '../../../redux/selectots/citiesArrayOption';
 import { useAppSelector } from '../../../redux/reducer/rootReducer';

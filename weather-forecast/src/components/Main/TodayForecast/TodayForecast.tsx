@@ -1,10 +1,7 @@
 import moment from 'moment';
 import React from 'react';
-import { useSelector } from 'react-redux';
 
 import './TodayForecast.scss';
-
-import { RootState } from '../../../redux/store';
 import { imagesArray } from '../../../constants/weatherImages';
 import { activeForecastSelector, forecastArraySelector } from '../../../redux/selectots/citiesArrayOption';
 import { useAppSelector } from '../../../redux/reducer/rootReducer';
@@ -38,7 +35,10 @@ const TodayForecast: React.FC = () => {
           <div className="today_secondary-info_item" key={index}>
             <img className="icon" src={`${process.env.PUBLIC_URL}/assets/weatherOptions/${item.url}`} alt="weather" />
             <p className="info">{item.info}</p>
-            <strong className="value">{forecastArray[activeForecast]?.current_condition[0][item.parameter] || '' + item.value}</strong>
+            <strong className="value">
+              {forecastArray[activeForecast]?.current_condition[0][item.parameter] || ''}
+              {' ' + item.value}
+            </strong>
           </div>
         ))}
       </div>
