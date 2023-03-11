@@ -1,14 +1,13 @@
 export function editForecastArray(obj) {
   return {
-    type: 'ADD_FORECAST',
+    type: 'CHANGE_FORECAST',
     value: obj,
   };
 }
 
-
 export function editActiveForecast(num) {
   return {
-    type: 'ADD_ACTIVE',
+    type: 'CHANGE_ACTIVE',
     value: num,
   };
 }
