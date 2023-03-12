@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import './Search.scss';
 
 import search from '../../../assets/icons/search.svg';
-import { useDispatch } from 'react-redux/es/exports';
-import { editActiveForecast, editForecastArray, getNewForecast, offStatusInvalideName } from '../../../redux/action/citiesArrayOption';
+import { getNewForecast, offStatusInvalideName } from '../../../redux/action/citiesArrayOption';
 import { forecastElemType } from '../../../types/forecast';
-import { getDayForecast } from '../../../services/getWeatherForecast';
 import { forecastArraySelector, invalidNameSelector } from '../../../redux/selectots/citiesArrayOption';
-import { useAppSelector } from '../../../redux/reducer/rootReducer';
+import { useAppDispatch, useAppSelector } from '../../../redux/reducer/rootReducer';
 
 const Search: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const forecastArray = useAppSelector(forecastArraySelector);
   const invalidName = useAppSelector(invalidNameSelector);
   const [inputCity, setInputCity] = useState<string>('');

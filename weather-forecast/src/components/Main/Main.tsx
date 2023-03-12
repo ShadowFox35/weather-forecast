@@ -1,8 +1,7 @@
 import moment from 'moment';
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { editForecastArray, getCurrentLocation, getNewForecast } from '../../redux/action/citiesArrayOption';
-import { useAppSelector } from '../../redux/reducer/rootReducer';
+import { useAppDispatch, useAppSelector } from '../../redux/reducer/rootReducer';
 import { currentCitySelector, forecastArraySelector, invalidNameSelector, loaderSelector } from '../../redux/selectots/citiesArrayOption';
 import './Main.scss';
 
@@ -10,7 +9,7 @@ import TodayForecast from './TodayForecast/TodayForecast';
 import WeekForecast from './WeekForecast/WeekForecast';
 
 const Main: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const forecastArray = useAppSelector(forecastArraySelector);
   const currentCity = useAppSelector(currentCitySelector);
   const loader = useAppSelector(loaderSelector);

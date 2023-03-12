@@ -1,4 +1,3 @@
-import { AnyAction } from 'redux';
 import { getDayForecast, getLocation } from '../../services/getWeatherForecast';
 
 export function editForecastArray(obj, activeForecast) {
@@ -21,59 +20,48 @@ export function editActiveForecast(value) {
   };
 }
 
-export const getCurrentLocation = (): AnyAction => {
+export const getCurrentLocation = () => {
   return (dispatch) => {
-    //не трогать
-    dispatch(request()); //не трогать
+
+    dispatch(request());
 
     getLocation().then(
-      //поменять
       (weather) => {
-        //не трогать
-
-        dispatch(success(weather)); //не трогать
+        dispatch(success(weather));
       },
       (error) => {
-        //не трогать
-        dispatch(failure(error)); //не трогать
+        dispatch(failure(error));
       }
     );
   };
 
   function request() {
-    //не трогать
-    return { type: 'FORECAST_REQUEST' }; //поменять
+    return { type: 'FORECAST_REQUEST' };
   }
   function success(city) {
-    //не трогать
-    return { type: 'GET_CURRENT_CITY_SUCCESS', city }; //поменять
+    return { type: 'GET_CURRENT_CITY_SUCCESS', city };
   }
   function failure(error) {
-    //не трогать
-    return { type: 'GET_CURRENT_CITY_FAILURE', error }; //поменять
+    return { type: 'GET_CURRENT_CITY_FAILURE', error };
   }
 };
 
-export const getNewForecast = (reqCity, forecastArray): AnyAction => {
+export const getNewForecast = (reqCity, forecastArray) => {
   return (dispatch) => {
-    //не трогать
     dispatch(request());
 
     getDayForecast(reqCity).then(
       (weather) => {
-        //не трогать
-        dispatch(success(weather)); //не трогать
+        dispatch(success(weather));
       },
       (error) => {
-        //не трогать
-        dispatch(failure(error)); //не трогать
+        dispatch(failure(error));
       }
     );
   };
 
   function request() {
-    //не трогать
-    return { type: 'FORECAST_REQUEST' }; //поменять
+    return { type: 'FORECAST_REQUEST' };
   }
   function success(city) {
     if (!city?.data?.error) {
@@ -85,11 +73,9 @@ export const getNewForecast = (reqCity, forecastArray): AnyAction => {
     } else {
       return { type: 'CHANGE_INVALID_NAME', status: true };
     }
-    //поменять
   }
   function failure(error) {
-    //не трогать
 
-    return { type: 'GET_FORECAST_FAILURE', error }; //поменять
+    return { type: 'GET_FORECAST_FAILURE', error };
   }
 };

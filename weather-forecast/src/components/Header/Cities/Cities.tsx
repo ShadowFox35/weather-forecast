@@ -1,17 +1,16 @@
 import React, { useCallback } from 'react';
 import './Cities.scss';
 
-import { useDispatch } from 'react-redux';
 import { editActiveForecast, editForecastArray } from '../../../redux/action/citiesArrayOption';
 
 import removeIcon from '../../../assets/icons/remove.svg';
 import { forecastElemType } from '../../../types/forecast';
 import clsx from 'clsx';
 import { activeForecastSelector, forecastArraySelector } from '../../../redux/selectots/citiesArrayOption';
-import { useAppSelector } from '../../../redux/reducer/rootReducer';
+import { useAppDispatch, useAppSelector } from '../../../redux/reducer/rootReducer';
 
 const Cities: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const forecastArray = useAppSelector(forecastArraySelector);
   const activeForecast = useAppSelector(activeForecastSelector);
 
