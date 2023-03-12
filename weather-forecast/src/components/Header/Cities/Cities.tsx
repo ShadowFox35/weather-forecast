@@ -25,17 +25,20 @@ const Cities: React.FC = () => {
   const deleteCity = (city: string, index: number) => {
     if (forecastArray.length > 1) {
       let list = forecastArray.filter((data: forecastElemType) => data.request[0].query !== city);
-      dispatch(editForecastArray(list));
-      localStorage.setItem('citiesForecast', JSON.stringify(list));
+      dispatch(editForecastArray(list, activeForecast));
 
       if (activeForecast === forecastArray.length - 1) {
+        console.log('if activeForecast', activeForecast);
         const newIndex = activeForecast - 1;
         dispatch(editActiveForecast(newIndex));
       }
     }
   };
 
+  console.log('activeForecast', activeForecast);
+
   const chooseCity = (index: number) => {
+    console.log('chooseCity activeForecast', activeForecast);
     dispatch(editActiveForecast(index));
   };
 

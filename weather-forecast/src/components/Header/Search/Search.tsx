@@ -3,15 +3,16 @@ import './Search.scss';
 
 import search from '../../../assets/icons/search.svg';
 import { useDispatch } from 'react-redux/es/exports';
-import { editActiveForecast, editForecastArray } from '../../../redux/action/citiesArrayOption';
+import { editActiveForecast, editForecastArray, getNewForecast, offStatusInvalideName } from '../../../redux/action/citiesArrayOption';
 import { forecastElemType } from '../../../types/forecast';
 import { getDayForecast } from '../../../services/getWeatherForecast';
-import { forecastArraySelector } from '../../../redux/selectots/citiesArrayOption';
+import { forecastArraySelector, invalidNameSelector } from '../../../redux/selectots/citiesArrayOption';
 import { useAppSelector } from '../../../redux/reducer/rootReducer';
 
 const Search: React.FC = () => {
   const dispatch = useDispatch();
   const forecastArray = useAppSelector(forecastArraySelector);
+  const invalidName = useAppSelector(invalidNameSelector);
   const [inputCity, setInputCity] = useState<string>('');
 
   const getForecast = async (request: string) => {
@@ -20,21 +21,7 @@ const Search: React.FC = () => {
         elem.request[0].query.toLocaleLowerCase().includes(request.toLocaleLowerCase())
       ) === -1
     ) {
-      let list = [...forecastArray];
-
-      try {
-        const result = await getDayForecast(request);
-        if (result.data.request[0].query) {
-          list.length === 5 && list.pop();
-          list.unshift(result.data);
-          list[0].weather.shift();
-          dispatch(editForecastArray(list));
-          dispatch(editActiveForecast(0));
-          localStorage.setItem('citiesForecast', JSON.stringify(list));
-        }
-      } catch (error) {
-        console.log(error);
-      }
+      dispatch(getNewForecast(request, [...forecastArray]));
     }
   };
 
@@ -45,6 +32,7 @@ const Search: React.FC = () => {
   };
 
   const readInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    invalidName && dispatch(offStatusInvalideName());
     setInputCity(event.target.value);
   };
 
