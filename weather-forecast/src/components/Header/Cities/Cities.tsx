@@ -1,17 +1,16 @@
 import React, { useCallback } from 'react';
 import './Cities.scss';
 
-import { useDispatch } from 'react-redux';
 import { editActiveForecast, editForecastArray } from '../../../redux/action/citiesArrayOption';
 
 import removeIcon from '../../../assets/icons/remove.svg';
 import { forecastElemType } from '../../../types/forecast';
 import clsx from 'clsx';
 import { activeForecastSelector, forecastArraySelector } from '../../../redux/selectots/citiesArrayOption';
-import { useAppSelector } from '../../../redux/reducer/rootReducer';
+import { useAppDispatch, useAppSelector } from '../../../redux/reducer/rootReducer';
 
 const Cities: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const forecastArray = useAppSelector(forecastArraySelector);
   const activeForecast = useAppSelector(activeForecastSelector);
 
@@ -25,17 +24,20 @@ const Cities: React.FC = () => {
   const deleteCity = (city: string, index: number) => {
     if (forecastArray.length > 1) {
       let list = forecastArray.filter((data: forecastElemType) => data.request[0].query !== city);
-      dispatch(editForecastArray(list));
-      localStorage.setItem('citiesForecast', JSON.stringify(list));
+      dispatch(editForecastArray(list, activeForecast));
 
       if (activeForecast === forecastArray.length - 1) {
+        console.log('if activeForecast', activeForecast);
         const newIndex = activeForecast - 1;
         dispatch(editActiveForecast(newIndex));
       }
     }
   };
 
+  console.log('activeForecast', activeForecast);
+
   const chooseCity = (index: number) => {
+    console.log('chooseCity activeForecast', activeForecast);
     dispatch(editActiveForecast(index));
   };
 

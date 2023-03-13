@@ -1,4 +1,5 @@
 export interface forecastElemType {
+  error: Error;
   current_condition: {
     FeelsLikeC: string;
     humidity: string;
@@ -17,4 +18,8 @@ export interface weatherType {
   date: string;
   avgtempC: string;
   hourly: { weatherDesc: { value: string }[] }[];
+}
+
+export interface dataType {
+  data: forecastElemType;
 }

@@ -9,6 +9,8 @@ import { weatherImagesType } from '../types/weatherImages';
 
 export const imagesArray: weatherImagesType = {
   'Light Snow': snowy,
+  'Light Snow Shower, Blowing Snow, Heavy Snow Shower': snowy,
+  'Blowing Snow': snowy,
   'Heavy Snow': snowy,
   Blizzard: snowy,
   'Heavy Snow, Blowing Snow': snowy,
